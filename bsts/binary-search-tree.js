@@ -15,80 +15,167 @@ class BinarySearchTree {
    * Returns the tree. Uses iteration. */
 
   insert(val) {
+    const newNode = new Node(val);
+    if (!this.root) {
+      this.root = newNode;
+      return this;
+    }
 
+    let node = this.root;
+    while (true) {
+      if (val > node.val) {
+        if (!node.right) {
+          node.right = newNode;
+          return this;
+        } else {
+          node = node.right;
+        }
+      } else {
+        if (!node.left) {
+          node.left = newNode;
+          return this;
+        } else {
+          node = node.left;
+        }
+      }
+    }
   }
 
   /** insertRecursively(val): insert a new node into the BST with value val.
    * Returns the tree. Uses recursion. */
 
-  insertRecursively(val) {
-
+  insertRecursively(val, node = this.root) {
+    if (!this.root) {
+      this.root = new Node(val);
+      return this;
+    }
+    if (val > node.val) {
+      if (!node.right) {
+        node.right = new Node(val);
+        return this;
+      }
+      return this.insertRecursively(val, node.right);
+    } else {
+      if (!node.left) {
+        node.left = new Node(val);
+        return this;
+      }
+      return this.insertRecursively(val, node.left);
+    }
   }
 
   /** find(val): search the tree for a node with value val.
    * return the node, if found; else undefined. Uses iteration. */
 
   find(val) {
-
+    let node = this.root;
+    while (node != null) {
+      if (node.val === val) {
+        return node;
+      } else if (node.val < val) {
+        node = node.right;
+      } else {
+        node = node.left;
+      }
+    }
+    return undefined;
   }
 
   /** findRecursively(val): search the tree for a node with value val.
    * return the node, if found; else undefined. Uses recursion. */
 
-  findRecursively(val) {
-
+  findRecursively(val, node = this.root) {
+    if (node === null) {
+      return undefined;
+    }
+    if (node.val === val) {
+      return node;
+    } else if (node.val < val) {
+      return this.findRecursively(val, (node = node.right));
+    } else {
+      return this.findRecursively(val, (node = node.left));
+    }
   }
 
   /** dfsPreOrder(): Traverse the array using pre-order DFS.
    * Return an array of visited nodes. */
 
-  dfsPreOrder() {
-
+  dfsPreOrder(node = this.root, visited = []) {
+    if (node === null) {
+      return;
+    }
+    visited.push(node.val);
+    this.dfsPreOrder(node.left, visited);
+    this.dfsPreOrder(node.right, visited);
+    return visited;
   }
 
   /** dfsInOrder(): Traverse the array using in-order DFS.
    * Return an array of visited nodes. */
 
-  dfsInOrder() {
-
+  dfsInOrder(node = this.root, visited = []) {
+    if (node === null) {
+      return;
+    }
+    this.dfsPreOrder(node.left, visited);
+    visited.push(node.val);
+    this.dfsPreOrder(node.right, visited);
+    return visited;
   }
 
   /** dfsPostOrder(): Traverse the array using post-order DFS.
    * Return an array of visited nodes. */
 
-  dfsPostOrder() {
-
+  dfsPostOrder(node = this.root, visited = []) {
+    if (node === null) {
+      return;
+    }
+    this.dfsPreOrder(node.left, visited);
+    this.dfsPreOrder(node.right, visited);
+    visited.push(node.val);
+    return visited;
   }
 
   /** bfs(): Traverse the array using BFS.
    * Return an array of visited nodes. */
 
   bfs() {
+    const visited = [];
+    function traverse(node, visited) {
+      const queue = [node];
+      while (queue.length > 0) {
+        let curr = queue.shift();
+        visited.push(curr.val);
 
+        if (curr.left != null) {
+          queue.push(curr.left);
+        }
+
+        if (curr.right != null) {
+          queue.push(curr.right);
+        }
+      }
+    }
+    traverse(this.root, visited);
+    return visited;
   }
 
   /** Further Study!
    * remove(val): Removes a node in the BST with the value val.
    * Returns the removed node. */
 
-  remove(val) {
-
-  }
+  remove(val) {}
 
   /** Further Study!
    * isBalanced(): Returns true if the BST is balanced, false otherwise. */
 
-  isBalanced() {
-
-  }
+  isBalanced() {}
 
   /** Further Study!
    * findSecondHighest(): Find the second highest value in the BST, if it exists.
    * Otherwise return undefined. */
 
-  findSecondHighest() {
-    
-  }
+  findSecondHighest() {}
 }
 
 module.exports = BinarySearchTree;
