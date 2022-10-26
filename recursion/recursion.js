@@ -1,14 +1,27 @@
 /** product: calculate the product of an array of numbers. */
 
-function product(nums) {}
+function product(nums) {
+  if (nums.length === 0) return 1;
+  let num = nums.pop();
+  return num * product(nums);
+}
 
 /** longest: return the length of the longest word in an array of words. */
 
-function longest(words) {}
+function longest(words) {
+  if (words.length === 0) return 0;
+  let word = words.pop();
+  return Math.max(word.length, longest(words));
+}
 
 /** everyOther: return a string with every other letter. */
 
-function everyOther(str) {}
+function everyOther(str, idx = 0, newStr = "") {
+  if (idx > str.length - 1) return newStr;
+  newStr += str[idx];
+  idx += 2;
+  return everyOther(str, idx, newStr);
+}
 
 /** isPalindrome: checks whether a string is a palindrome or not. */
 
